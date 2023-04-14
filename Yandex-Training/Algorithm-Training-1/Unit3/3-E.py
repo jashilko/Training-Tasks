@@ -1,0 +1,6 @@
+zyz = set(map(int, input().split()))
+n = int(input())
+nset = set(map(int, set(str(n))))
+#print(zyz)
+#print(nset)
+print(len(nset.difference(zyz)))
