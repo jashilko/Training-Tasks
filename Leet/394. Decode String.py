@@ -1,39 +1,30 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        res_list = []
-        temp_list = []
-        counter = 0
-        lenght = len(s) - 1
-        i = lenght
-        digit = []
-        go = False
-        while i >= 0 or go:
-            if i >= 0 and s[i].isdigit():
-                digit.append(s[i])
-            else:
-                if go:
-                    digit.reverse()
-                    temp_list = temp_list * int(''.join(digit))
-                    if counter == 0:
-                        res_list = res_list + temp_list
-                        temp_list.clear()
-                    go = False
-                    digit.clear()
-            if i >= 0:
-                if s[i] == ']':
-                    counter += 1
-                elif s[i] == '[':
-                    counter = counter - 1
-                    go = True
-                elif not s[i].isdigit():
-                    if counter > 0:
-                        temp_list.append(s[i])
-                    else:
-                        res_list.append(s[i])
-            i = i -1
 
-        res_list.reverse()
-        return ''.join(res_list)
+        def recurseFunction(temp_s, i):
+            res_str = ""
+
+            while i <= len(temp_s) - 1:
+                if temp_s[i].isdigit():
+                    mult_str = ''
+                    while temp_s[i].isdigit():
+                        mult_str += temp_s[i]
+                        i+=1
+                    mult = int(mult_str)
+                    ans, i = recurseFunction(temp_s, i+1)
+                    res_str += mult * ans
+                elif temp_s[i] == ']':
+                    i += 1
+                    return (res_str, i)
+                else:
+                    res_str = res_str + temp_s[i]
+                    i += 1
+            return (res_str, i)
+
+        res_str, i = recurseFunction(s, 0)
+        return res_str
+
+
 
 
 
